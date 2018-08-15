@@ -11,15 +11,7 @@ class PopUpInfo extends HTMLElement {
     const wrapper = document.createElement('div');
     wrapper.setAttribute('class', 'wrapper');
 
-	createCol(i, col){
-    const col = document.createElement('div');
-    col.setAttribute('class', 'col');
-    col.setAttribute('style', 'grid-column: unset');
-
-		col.textContent = 'col';
-		el.appendChild(col);
-  }
-    const row = document.createElement('div');
+	const row = document.createElement('div');
     row.setAttribute('class', 'row');
 
     // Take attribute content and put it inside the info span
@@ -49,7 +41,11 @@ class PopUpInfo extends HTMLElement {
     shadow.appendChild(wrapper);
    // wrapper.appendChild(row);
    for(let i=0;i<10;i++) {
-    createCol(i, wrapper);
+    const col = document.createElement('div');
+    col.setAttribute('class', 'col');
+    col.setAttribute('style', 'grid-column: unset');
+	col.textContent = 'col';
+	wrapper.appendChild(col);
    }
   }
 }

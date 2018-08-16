@@ -18,10 +18,11 @@ const source = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
+    this.source = source;
     // Create a shadow root
     const shadow = this.attachShadow({mode: 'open'});
 
-    // Create spans
+    // Create table
     const wrapper = document.createElement('div');
     wrapper.setAttribute('class', 'eui-table');
 
@@ -29,22 +30,25 @@ const source = [
     row.setAttribute('class', 'row');
 
     // Take attribute content and put it inside the info span
-   // const text = this.getAttribute('data-text');
+    this.template = this.getAttribute('columns-template');
+    this.template = Array.from(this.template, (v) => v + 'fr');
+    
+    console.log(this.template);
    // info.textContent = text;
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement('style');
-    console.log(style.isConnected);
 
     style.textContent = `
       .eui-table {
         position: relative;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-        border: 1px solid #333;
+        
       }
       .col {
-      	box-shadow: inset 1px 0 0 #333;
+      	border: 1px solid #333;
+      	padding: 16px;
       	min-width: 32px;
       	min-height: 32px;
       }`;
@@ -54,16 +58,29 @@ const source = [
     console.log(style.isConnected);
     shadow.appendChild(wrapper);
    // wrapper.appendChild(row);
-   
- for(let i=0;i<source.length;i++) {
-  // for(let key in source[i]){
-    const col = document.createElement('div');
-    col.setAttribute('class', 'col');
-    col.setAttribute('style', `grid-column: ${source[i].position}`);
-	col.textContent = source[i].symbol;
-	wrapper.appendChild(col);
-//	  }
-   }
+   this.wrapper = wrapper;
+
+   this.createColumns();
+//   for(let i = 0; i < source.length; i++) {
+//     for(let key in source[i]){
+//       const col = document.createElement('div');
+//       col.setAttribute('class', `col ${key}`);
+//       col.setAttribute('style', `grid-row: ${i + 1}`);
+// 	  col.textContent = source[i][key];
+// 	  wrapper.appendChild(col);
+//     }
+//   }
+}
+  createColumns(){
+  	for(let i = 0; i < this.source.length; i++) {
+    for(let key in this.source[i]){
+      const col = document.createElement('div');
+      col.setAttribute('class', `col ${key}`);
+      col.setAttribute('style', `grid-row: ${i + 1}`);
+	  col.textContent = this.source[i][key];
+	  this.wrapper.appendChild(col);
+    }
+  }
   }
 }
 

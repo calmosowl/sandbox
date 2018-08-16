@@ -1,15 +1,29 @@
+
 // Create a class for the element
-class PopUpInfo extends HTMLElement {
+class GridTable extends HTMLElement {
   constructor() {
     // Always call super first in constructor
     super();
+
+const source = [
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
+  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
+  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
+  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
+  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
+  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
+  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
+  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
+  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+];
 
     // Create a shadow root
     const shadow = this.attachShadow({mode: 'open'});
 
     // Create spans
     const wrapper = document.createElement('div');
-    wrapper.setAttribute('class', 'wrapper');
+    wrapper.setAttribute('class', 'eui-table');
 
 	const row = document.createElement('div');
     row.setAttribute('class', 'row');
@@ -23,7 +37,7 @@ class PopUpInfo extends HTMLElement {
     console.log(style.isConnected);
 
     style.textContent = `
-      .wrapper {
+      .eui-table {
         position: relative;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
@@ -40,15 +54,18 @@ class PopUpInfo extends HTMLElement {
     console.log(style.isConnected);
     shadow.appendChild(wrapper);
    // wrapper.appendChild(row);
-   for(let i=0;i<10;i++) {
+   
+ for(let i=0;i<source.length;i++) {
+  // for(let key in source[i]){
     const col = document.createElement('div');
     col.setAttribute('class', 'col');
-    col.setAttribute('style', 'grid-column: unset');
-	col.textContent = 'col';
+    col.setAttribute('style', `grid-column: ${source[i].position}`);
+	col.textContent = source[i].symbol;
 	wrapper.appendChild(col);
+//	  }
    }
   }
 }
 
 // Define the new element
-customElements.define('popup-info', PopUpInfo);
+customElements.define('grid-table', GridTable);

@@ -27,14 +27,6 @@ class GridTable extends HTMLElement {
     const row = document.createElement('div');
     row.setAttribute('class', 'row');
 
-    // Take attribute content and put it inside the info span
-    this.template = this.getAttribute('columns-template');
-
-    this.template = this.template.split(' ');
-
-    console.log(this.template);
-    // info.textContent = text;
-
     // Create some CSS to apply to the shadow dom
     const style = document.createElement('style');
 
@@ -45,6 +37,7 @@ class GridTable extends HTMLElement {
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
       }
       .col {
+        color: #334;
         border: 1px solid #333;
         padding: 16px;
         min-width: 32px;
@@ -54,12 +47,15 @@ class GridTable extends HTMLElement {
 
     // Attach the created elements to the shadow dom
     shadow.appendChild(style);
-    console.log(style.isConnected);
     shadow.appendChild(wrapper);
     // wrapper.appendChild(row);
     this.wrapper = wrapper;
+    
+		this.config = {
+			template: ['title', 'completed']
+		}
 
-    this.createColumns();
+		this.columns(this.config, this.wrapper);
   }
 
   createColumns() {
@@ -72,6 +68,26 @@ class GridTable extends HTMLElement {
         this.wrapper.appendChild(col);
       }
     }
+  }
+
+  columns(config, wrapper){
+  fetch('https://jsonplaceholder.typicode.com/todos')
+    .then(response => response.json())
+    .then(function(data) {
+		let row = 0;
+		while(row < data.length) {
+	  	for(let key of config.template) {
+  		  const col = document.createElement('div');
+  		  
+  		  col.setAttribute('class','col');
+  		  col.setAttribute('style', `grid-row: ${row + 1}`);
+  		  
+  		  col.textContent=data[row][key];
+ 		  	wrapper.appendChild(col); 		  
+ 			 }
+ 		  row++;
+ 		  }
+ 		});
   }
 }
 

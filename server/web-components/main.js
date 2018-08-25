@@ -3,14 +3,20 @@ class GridTable extends HTMLElement {
   constructor() {
     super();
 
+    this.config = {
+      template: ['id', 'title', 'completed'],
+      templateColumns: '1fr 3fr 9ch'
+    }
     // Create a shadow root
     const shadow = this.attachShadow({ mode: 'open' });
 
     // Create table
     const wrapper = document.createElement('div');
     wrapper.setAttribute('class', 'eui-table');
+    wrapper.setAttribute('style', `grid-template-columns: ${this.config.templateColumns}`);
 
-    
+    const styles = getComputedStyle(document.documentElement);
+//    alert(styles);    
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement('style');
@@ -23,7 +29,8 @@ class GridTable extends HTMLElement {
       }
       .row {
       	display: grid;
-      	grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      	grid-column: 1 / -1;
+      	grid-template-columns: inherit;
       }
       .col {
         color: #334;
@@ -40,9 +47,6 @@ class GridTable extends HTMLElement {
 
     this.wrapper = wrapper;
     
-	this.config = {
-      template: ['title', 'completed']
-    }
 
 	this.columns(this.config, this.wrapper);
   }

@@ -52,7 +52,7 @@ class GridTable extends HTMLElement {
   }
 
   columns(config, wrapper) {
-    fetch('https://jsonplaceholder.typicode.com/todos')
+    fetch('https://jsonplaceholder.typicode.com/todos/')
       .then(response => response.json())
       .then(function(data) {
 		let i = 0;
